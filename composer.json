@@ -23,5 +23,5 @@
             "Davekelly\\StaticGenerator\\": "src/"
         }
     },
-    "minimum-stability": "beta"
+    "minimum-stability": "stable"
 }
