@@ -1,0 +1,27 @@
+{
+    "name": "davekelly/static-generator",
+    "description": "Generate static HTML/JSON files from Laravel routes",
+    "keywords": ["static", "html", "front-end", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dave Kelly",
+            "email": "hello@davidkelly.ie",
+            "homepage": "https://github.com/davekelly"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "guzzlehttp/guzzle": "~4.0"
+    },
+    "autoload": {
+        "classmap": [
+            
+        ],
+        "psr-0": {
+            "Davekelly\\StaticGenerator\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
