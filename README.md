@@ -2,11 +2,7 @@
 
 Generate static HTML or JSON files from Laravel routes.
 
-This was developed for use in data-visualisation style applications where it is not required to deploy a full PHP app with a database. Instead, a front-end-only version with data held as JSON can be used. 
-
-I've needed to use HTML-only versions of Laravel apps often enough that this package made sense.
-
-
+This was developed for use with small data visualisation-type applications where it is not required to deploy a full PHP app with a database. Instead, a front-end-only version with data held as JSON can be used. I have needed to use HTML-only versions of Laravel apps often enough that this package made sense.
 
 ##Setup & Usage
 
