@@ -78,7 +78,6 @@ class StaticGenerator extends Illuminate\Foundation\Testing\TestCase {
     {
         $client = new Client();
 
-    // Create a mock subscriber and queue two responses.
         $mock = new Mock([
             new Response(200, ['X-Foo' => 'Bar'])
         ]);
@@ -100,8 +99,6 @@ class StaticGenerator extends Illuminate\Foundation\Testing\TestCase {
     public function testJsonFilename()
     {
         $client = new Client();
-
-    // Create a mock subscriber and queue two responses.
         $mock = new Mock([
             new Response(200, ['X-Foo' => 'Bar', 'Content-Type' => 'application/json']),         // Use response object
             
