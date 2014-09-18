@@ -14,8 +14,6 @@ Route::get('/generate/', function(){
     // do we have a route to static-ify
     $route     = Input::get('route');
     
-    $generate  = new Generator();
-
     if($route){
         // go. go. go.
         $generate  = new Generator();
