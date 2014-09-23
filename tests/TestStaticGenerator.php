@@ -12,6 +12,9 @@ class StaticGenerator extends Illuminate\Foundation\Testing\TestCase {
     protected $generator;
 
 
+    protected $fileLocation;
+
+
     /**
      * Creates the application.
      *
@@ -32,6 +35,17 @@ class StaticGenerator extends Illuminate\Foundation\Testing\TestCase {
     public function setUp(){
        parent::SetUp();
        $this->generator = new Generator();
+
+       $this->fileLocation = $this->generator->getStaticPathLocation();
+    }
+
+    // is the path to save files writable
+    public function testIsWritablePath()
+    {
+
+        $path = $this->generator->getStaticPathLocation();
+
+        $this->assertTrue(is_string($path));
     }
 
 
@@ -89,9 +103,30 @@ class StaticGenerator extends Illuminate\Foundation\Testing\TestCase {
     
         $savedFileName = $this->generator->save($response, '/');
 
-        $this->assertEquals($savedFileName, 'index.html');
+        $this->assertEquals($savedFileName, $this->fileLocation . '/index.html');
 
     }  
+
+    // can we save a file for the /about route (you'll need to add a 
+    // route to routes.php for /about to run this)
+    public function testSaveRouteNested()
+    {
+        $client = new Client();
+
+        $mock = new Mock([
+            new Response(200, ['X-Foo' => 'Bar'])
+        ]);
+
+        // Add the mock subscriber to the client.
+        $client->getEmitter()->attach($mock);
+        // The first request is intercepted with the first response.
+        $response = $client->get('/about');
+    
+        $savedFileName = $this->generator->save($response, 'about');
+
+        $this->assertEquals($savedFileName, $this->fileLocation . '/about/index.html');
+    }
+
 
 
     // is there a .json extension on filenames for responses with the 

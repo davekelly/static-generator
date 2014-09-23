@@ -30,3 +30,7 @@ If you generate a static version of a Route that returns a JSON response, the fi
 
 - Create an Artisan CLI interface
 - Look at filtered routes
+
+
+##Updates
+v0.2 - Creates html nested directories mimicking route structure (e.g. route: `/about/contact` saved to `/static/about/contact/index.html`) - based on idea from [pulkitjalan](https://github.com/pulkitjalan/static-generator/blob/3cb252c846fc00f4b0c862813d8f2f97e7476fa0/src/Davekelly/StaticGenerator/Generator.php)

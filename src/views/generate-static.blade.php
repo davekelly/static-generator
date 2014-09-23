@@ -58,7 +58,7 @@
                         <div class="alert alert-success">
                             <h4>Static file created.</h4>
                             <p>
-                                 You can find it at: <code>/public/static/{{ $generated }}</code>
+                                 You can find it at: <code>{{ $generated }}</code>
                             </p>
                         </div>
 

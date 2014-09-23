@@ -12,7 +12,24 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 // 
 class Generator {
 
+    /**
+     * Filesystem  
+     * @var Illuminate\Filesystem\Filesystem
+     */
+    protected $fs;
 
+    /**
+     * Directory location inside /public to store the files
+     * @var string
+     */
+    protected $fileLocation = '/static';
+
+
+
+    public function __construct()
+    {
+        $this->fs = new Filesystem();
+    }
 
 
     /**
@@ -84,38 +101,81 @@ class Generator {
      */
     public function save($response, $route)
     {
-        $fs = new Filesystem();
-
-        $path = public_path() . '/static';
-
-        if(!$fs->isDirectory( $path )){
-            $fs->makeDirectory($path);
-        }
-
-        $filename   = $this->getFilename($response, $route);
-        $saved      = $fs->put($path . '/'. $filename, $response->getBody());
-
+        
+        $staticPath     = $this->getStaticPathLocation();
+        $path           = $this->createPathFromRoute($route, $staticPath);
+        
+        $filename   = $this->getFilename($response);
+        $saved      = $this->fs->put($path . '/'. $filename, $response->getBody());
+        
         if(is_numeric($saved)){
-            return $filename;
+            return $path . '/' . $filename;
         }
 
         return $saved;
 
     }
 
-    public function getFilename($response, $route)
+    /**
+     * Where in the /public directory should the files
+     * be stored?
+     * 
+     * @return string $path
+     */
+    public function getStaticPathLocation()
+    {
+        $path = public_path() . $this->fileLocation;
+
+        if(!$this->fs->isWritable($path)){
+            throw new PathNotWritableException;
+        }
+
+        if(!$this->fs->isDirectory( $path )){
+            $this->fs->makeDirectory($path);
+        }
+
+        return $path;
+    }
+
+
+    /**
+     * Check the path for this route exists. If it doesn't,
+     * create it 
+     * 
+     * @param  string $route 
+     * @param  string $path  
+     * @return string $fullPath
+     */
+    public function createPathFromRoute($route, $path)
+    {
+         if($route !== '/'){
+
+            $path = $path . '/'. $route ;
+
+            if(!$this->fs->isDirectory( $path )){
+                $this->fs->makeDirectory($path, $mode = 0755, $recursive = true);
+            }
+
+        }
+
+        return $path;
+    }
+
+    /**
+     * Return the correct filename/extension (will be .html
+     * if there's no json header set)
+     * 
+     * @param  Illuminate\Http\Response
+     * @return string
+     */
+    public function getFilename($response)
     {
         $extension = '.html';
         if($response->getHeader('Content-Type') == 'application/json'){
             $extension = '.json';
         }
 
-        if($route !== '/'){
-            $filename = Str::slug( str_replace('/', ' ', $route));
-
-            return $filename . $extension;
-        }
-
         return 'index' . $extension;
     }
+
 }
