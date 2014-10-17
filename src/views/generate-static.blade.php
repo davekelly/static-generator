@@ -82,12 +82,12 @@
 
                                     <tr>
                                         <td class="gen-method">{{ $value->getMethods()[0] }}</td>
-                                        <td class="gen-path">{{ $value->getPath() }}</td>
+                                         <td class="gen-path">{{ URL::to($value->getPath()) }}</td>
                                         <?php /* <td>{{ $value->getActionName() }}</td> */ ?>
                                         <td>
                                             <?php  // $path = ($value->getPath() == '/') ? '/' : '/' . $value->getPath();  ?>
 
-                                                <a href="/generate?route={{ $value->getPath() }}" class="btn btn-primary">
+                                                <a href="{{ URL::to('/') }}/generate?route={{ $value->getPath() }}" class="btn btn-primary">
                                                     Generate Static File
                                                 </a>
                                         </td>
